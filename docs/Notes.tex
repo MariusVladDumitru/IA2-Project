@@ -1,0 +1,117 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{xcolor}
+\title{Notite Proiect IA2}
+\author{Dumitru Marius-Vlad}
+\date{\today}
+
+\begin{document}
+\maketitle
+\section{Introducere}
+    Pentru proiectul de la IA2, 2025-2026, ca și anii anteriori, mi-am ales tema \textbf{Image Inpainting}.\\
+    \textbf{Image Inpainting} înseamnă restaurarea/repararea imaginilor deteriorate. Sistemul cu învățare automată primește la intrare o imagine deteriorată(conține porțiuni de imagine, mai mici sau mai mari, lipsă - denumite "goluri"), acesta efectuând reparația zonelor lipsă prin umplerea "golurilor", astfel încât, la ieșire să se obțină o imagine cât mai apropriată de versiunea fără "goluri".
+
+\section{Cerințele Proiectului}
+Cerințele generale ale proiectului sunt:
+\begin{itemize}
+    \item Antrenarea și validarea unuia sau mai multor modele cu învățare automată pentru aplicația de Image Inpainting și măsurarea performanțelor acestora.
+    \item Scrierea unui raport care detaliază activitatea proiectului. Cerințele de redactare sunt pe github.
+    \item Realizarea și susținerea unei prezentări.
+    \item Detaliile legate de forma de predare a codului sunt pe github.
+    \item Partea experimentală trebuie să conțină \textbf{cel puțin 3 studii de ablație.}
+    \item Folosirea a, ce puțin, unui set de date(daca nu mai multe).
+    \item Pentru partea experimentală, se vor folosi cel puțin 3 metode:
+        \begin{itemize}
+            \item Obligatoriu, o metodă, antrenată de mine, "from scratch".
+            \item Celelalte, cel puțin 2 (sau mai multe), fie antrenată de mine "from scratch", fie antrenată prin \textbf{Transfer Learning}.
+        \end{itemize}
+    \item \textbf{\color{red} Nu este permisă preluarea rezultatelor din alte surse.} Rezultatele prezentate trebuie să fie cele obținute de mine(originale).
+\end{itemize}
+
+\section{Setul de date}
+Nu există seturi de date special concepute pentru aplicația de "Inpainting". De aceea voi folosi seturi de date folosite pentru sarcini de clasificare.\\
+Altfel spus, setul/seturile de date pe care voi lucra for conține imagini din seturi de date pentru sarcina de clasificare, fie le folosesc în întregime, fie folosesc porțiuni din unul sau mai multe seturi de date de clasificare de imagini.
+Ca dimensiuni, orientativ, sunt valabile imaginile cu dimensiunile minime de \textbf{64x64 px} și maxime de \textbf{512x512 px}. Pentru simplitate, voi folosi imagini având lungimea și lățimea egale.\\
+IMAGINI COLOR.
+
+\section{Metoda, foarte generală, de obținere a imaginilor deteriorate}
+Pentru acest proiect, sistemele cu învățare automată au nevoie de imagini deteriorate. Pentru aceasta, fie, găsim imagini deteriorate, fie le construiesc artificial. Sunt puține sursele de imagini deteriorate, de aceea le voi construi artificial.\\
+Pentru a putea obține imaginea "cu goluri", am nevoie de o mască. Masca reprezintă "golurile" pe care sistemul de învățare automată trebuie să le umple.\\
+Pornind de la o imagine, dintr-un set de date de clasificare, și aplicând o mască de o anumită formă și dimensiune, voi obține o imagine deteriorată, "cu goluri", pe care sistemul cu învățare automată trebuie să o repare.\\
+Masca trebuie să aibă forme și dimensiuni foarte variate pentru a permite sistemului un grad mare de generalizare.\\
+Masca poate să fie, ori generată dinamic, ori citită dintr-un fișier și aplicată direct din imagine. Paper-urile de specialitate generează dinamic toate măștile.
+
+\section{Despre Măști}
+Măștile pot să fie statice sau dinamice. Paper-urile de specialitate aleg să genereze măștile dinamic.\\
+Măștile trebuie să aibă forme și dimensiuni variate pentru a permite sistemului să generalizeze.\\
+Ca idee, măștile nu ar trebui să ocupe mai mult de 50\% suprafața totală a imaginii.\\
+De exemplu, putem începe cu dimensiuni mici ale măștii, apoi crescută gradual: 1\%, 2\%, 5\%, 10\%, 15\%, 20\%, 25\%, 30\%, 35\%, 40\%, 45\%, 50\%.\\
+Ca forme, plec inițial de la forme geometrice simple(pătrat, deptunghi, cerc, elipsă) către forme geometrice mai complicate.
+Ca idee generală, uite-te peste câteva paper-uri de specialitate și vezi ce dimensiuni și forme folosesc și ei acolo.
+
+
+\section{Despre Performanțe}
+Ca idee generală, ar fi recomandat ca, pentru primul model, să folosesc ceva model clasic(fără rețele neurale) pentru a-mi face o idee despre punctul de start al performanțelor.\\
+Rețelele neurale au performanțe mai bune decât modele clasice cu învățare automată.\\
+Rețelele ar trebui să fie capabile să generalizeze pentru orice formă și la orice poziții din imagini.
+Deci, prima rețea pe care o construiesc, ar trebui să aibă performanțe mai bune față de modelul cu învățare automată construit în prima etapă. \\
+Uită-te prin paper-uri și vezi ce modele clasice cu învățare automată au folosit ei. De asemenea vezi ce rețele neurale au folosit ei.
+
+\section{Despre Metrici}
+Recomandarea generală: uite-te peste literatura de specialitate, vezi ce metrici se folosește acolo.
+Ce sa spus:
+\begin{itemize}
+    \item PSNR
+    \item SSID
+    \item FID
+    \item Alte Metrici
+\end{itemize}
+
+\section{Despre Antrenare Și  Validare}
+La Antrenare:
+\begin{itemize}
+    \item La fiecare epocă:
+    \begin{itemize}
+        \item Pentru fiecare imagine din subsetul de antrenare, \textbf{generez aleator} altă mască(alt tip și altă dimensiune). Este posibil ca, în unele cazuri particulare, măștile generate aleator să coincidă. Nu este o problemă, dar totul trebuie să fie aleator, generarea unei măști nu trebuie să depindă de alta.
+    \end{itemize}
+\end{itemize}
+La Validare:\\
+\textbf{\color{red} Voi genera, o singură dată, câte o mască unică pentru fiecare imagine din subsetul de validare. Cu alte cuvine, fiecare imagine din subsetul de validare, va avea asociată O SINGURĂ MASCĂ UNICĂ(formă și dimensiune). O dată fixată această mască unică, ea va fi aceeași pentru toate experimentele(toate epocile).}\\
+Deci, pentru subsetul de validare, voi construi perechi (imagine, mască unică), folosite în toate experimentele(toate epocile).
+
+\section{Despre Redactare}
+La SOTA, pot să pun un tabel în care să sumarizez niște rezultate din literatură, dar, obligatoriu trebuie să am și text.
+
+\section{Studii de ablatie si Transfer Learning}
+O sa mai revin aici.\\
+NU stiu încă ce să scriu aici.\\
+MAI TREBUIE SA MAI REVIN AICI\
+SA NE FACEM NOI STUDIILE DE ABLATIE.\\
+- Cand facem Transfer learning si antrenam pt cateva epoci retelele preantrenate, folosim diferiti hiperparametrii $\rightarrow$ asa ne facem studiile de ablatie. Deci nu luam de-a gata ce am gasit pe net si mai bibilim hiperparametrii ca sa evidentiem un anumit aspect.\\
+- Studiile de ablatie nu sunt obligatoriu de facut in procesul de fine tuning. Il putem face si la testare, dupa ce modelul este antrenat, putem testa sub diferite conditii: pruning(trade-off perf si rata de compresie), model antrenat pe img rez mica si testez pe imagini de rezolutie mare. Ne uitam prin articole ce fac aia pe acolo, facem fie propriile studii, fie reproducem ce au facut aia in paper, dar, MACAR, sa fie diferite, adaugam niste explicatii $\rightarrow$ studiul de ablatie.
+\textbf{\color{red} Ca idee generală, un studiu de ablație trebuie să pună în evidență un anumit aspect(care sa urmărit în timpul experimentelor.)}
+Idei studii de ablație:
+\begin{itemize}
+    \item Sistem să fie antrenat de noi. Dacă nu este antrenat de noi, trebuie să folosesc transfer learning.
+    \item Idee studiu de ablație: Antrenarea unui model pe măști fixe. Antrenarea unui al doilea model pe măști random. Studiul de ablație constă în comparația celor 2 modele și determinat dacă modelul antrenat pe măști random generalizează mai bine decât cel antrenat pe măști fixe.
+    \item Idee studiu de ablație: Generez măști cu aceeași formă, dar dimensiuni crescute treptat. Ideea de bază este, pentru aceeași formă a măștii, până la ce dimensiune maxiumă este capabil sistemul să generalizeze?? Schimb forma măștii și repet procesul.
+    \item Idee studiu de ablatie: În pereche cu punctul precedent, mențin dimensiunea fixă a măștii, dar variez forma ei, de la forme geometrice simple(pătrat, dreptunghi, cerc, poate și elipsă) $\rightarrow$ forme geometrice mai complicate $\rightarrow$ forme geometrice foarte complicate. Până unde poate sistemul să generalizeze ??
+    \item Idee studiu de ablație: Facem pruning(eliminăm o parte din parametrii - nu știu dacă la antrenare/validare) $\rightarrow$ măsurăm compromisul dintre performanță și rata de compresie (cred că asta se aplică pentru alt proiect, dar am scris-o aici, ca idee generică)
+    \item Idee studiu de ablație: Antrenez pe imagini cu rezoluții mici, testăm pe imagini cu rezoluții mari și invers. Până unde e în stare sistemul să umple golurile ????
+\end{itemize}
+
+\section{Rezumat}
+\begin{itemize}
+    \item Imagini de lungime și lățime egale, dimensiune minimă: 64x64 px $\rightarrow$ dimensiune maximă: 512x512px. Imagini color.
+    \item Seturi de date pentru sarcina de clasificare. Pot folosi în întregime sau pe porțiuni. Fără MNIST.
+    \item Imagine originala + Mască = Imagine deteriorată.
+    \item Măști generate dinamic.
+    \item Măștile trebuie să aibă forme și dimensiuni foarte foarte variate pentru a permite generalizarea.
+    \item Măștile nu ar trebui să ocupe mai mult de 50\% din suprafața totală a imaginii.
+    \item Plec de la dimensiuni mici ale măștii către dimensiuni mari.
+    \item Vezi paper-uri de specialitate și uite-te ce forme și dimensiuni folosesc și ei acolo. Te poți inspira foarte mult de acolo. Procentele pe care le-am menționat sunt orientative, le pot schimba oricând.
+    \item Model clasic cu învățare automată pentru a stabili performanțele de pornire ale primei rețele pe care o construiesc.
+    \item La antrenare, la fiecare epocă, pentru fiecare imagine în parte voi genera, de fiecare dată, altă mască. La validare, pentru fiecare imagine în parte voi avea o singură mască unică, folosită apoi în toate experimentele(toate epocile). NU generez altă mască, de fiecare dată, ca la antrenare. O generez o singură dată, ea rămâne aceeași pentru toate experimentele(toate epocile).
+    \item Tot codul îl voi scrie în Jupyter Notebook. Ai grijă ca notebook-ul să includă tot setup-ul necesar pentru a rula proiectul. Profesorul nu trebuie să facă nimic înafară de a rula notebook-ul meu.
+\end{itemize}
+
+\end{document}

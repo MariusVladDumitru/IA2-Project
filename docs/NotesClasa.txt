@@ -1,0 +1,78 @@
+Notes:
+A.
+- Sa imi fac singur mastile boss!
+- Imagini mai mici si imagini mai mari (trebuie sa mearga si pe imagini mai mari.)
+- Imagini reale
+- Coco, imageNet(224x224)
+- Incep cu masti mici, le maresc treptat, sa vad pana unde poate sistemul sa generalizeze.(sa umble acele goluri.). Pana unde poate produce rezultate relevante.
+- Acoperire o parte omogena din poza - 10%, 5%
+- Mai intai forme geometrice simple pentru masti: dreptunghi, patrat, cerc. Dupa ce reuseste sa "inpaint" astea, vedem SI ALTE modele de masti.
+- PRIMA SI PRIMA DATA, AR TREBUI FACUT UN STUDIU DE STAREA ARTEI - CARE SUNT CELE MAI FOLOSITE METODE IN LITERATURA BOSSS!
+    - Patch match. -> ML clasic.
+    - Dupa, ceva mai complex, folosind retele neurale.
+- Cat anume din poza acopera masca ? (cat de mare este masca ??????????) -> imi fixez un procent din imagine care ar trebui sa reprezinte masca, dupa, sa-mi generez automat imaginea + masca -> 5%, 10% acoperire. 
+- La ce procente sa folosesc -> uite-te pe cateva articole/referinte/papers si vezi ce procente folosesc si ei acolo BOSS!!
+- 30% - li se pare mult la profi pentru start
+- prima oara -> toate 5%, apoi 10%, apoi maresti treptat.
+- Codul sa fie modular -> proful trebuie sa poata sa ruleze si sa testeze ce am facut BOSS!!!!!.
+- Se poate folosi orice dataset cu imagini. NU este impusa/necesara folosirea integrala a unui dataset, se poate folosi si doar o bucata mai mica dintr-un dataset.
+- Versiuni ale ImageNet-ului mai lightweight: TinyImageNet
+- Setul de date COCO este ok.
+- Task-ul de inpainting: Sa umple golul/golurile/artefactele/defectele din imagini intr-un mod cat mai realist.
+- Intrarea sistemului, la antrenare, trebuie sa fie formata din imagini CE CONTIN aceste gol/goluri/artefacte/defecte, iar iesirea ar trebuie sa fie imaginea cu acele goluri umplute cat mai realist(imaginea reconstruita).
+- Dacă nu folosești imagini alterate la antrenare, rețeaua nu ar avea cum să învețe reconstrucția unor zone cu găuri pe care vrei să le oferi ulterior rețelei drept intrare. 
+- Nu este niciodată ok să folosești atât la antrenare cât și la testare aceleași date, indiferent dacă au fost aplicate operații de degradere într-un caz sau altul. 
+- La modul general, seturile de date cu imagini sunt folosite pentru task-ul de clasificare, ele nu vin cu "artefacte"/"goluri". Din acest considerent, "Artefactele"/"golurile", trebuie sa le generez eu in mod dinamic.
+- Daca, pentru un dataset dat, el contine un numar mult prea mare de imagini, atunci poti folosi doar o mica parte din el. Pot face propria mea impartire de subseturi antrenare-validare, eventual si testare. MENTINUEA IMPORTANTA ESTE CA O IMAGINE SA NU SE AFLE si in subsetul de antrenare si in subsetul de validare si in subsetul de testare. Imaginea trebuie sa fie doar intr-un singur subset, NU IN DOUA!!!!!!!!. MORALA: la antrenare si la validare NU TREBUIE SA FIE ACELEASI DATE, trebuie sa fie date diferite!!!!!!!!!
+- Da, datele de antrenare/testare/validare ți le vei crea tu, adăugând artificial artefacte
+- Dacă seturile din împărțirea oficială antrenare-validare-testare oferită de un dataset sunt prea mari, îți poți defini seturile proprii de dimensiune mai mică, e.g. 20% din setul oficial de antrenare devine setul tău de antrenare. Dar, încă o dată, aceeași imagine nu ar trebui să se regăsească în 2 sau mai multe seturi. 
+
+B.
+- Set de date cu imagini, fie masti deja existente in setul oficial, fie le creez eu, mastile le aplic peste imagini => imaginea degradata. Sistemul trebuie sa reconstruiasca cat mai bine imaginea degradata(umplerea acelui gol).
+- Masti random -> antrenez reteaua.
+- LA VALIDARE: TREBUIE SA TIN MASTILE FIXE -> MASTOR PERFORMANTELE. FOLOSESC ACELEASI MASTI PENTRU TOATE METODELE PE CARE LE INCERC.
+- Metrici:
+    -PSNR
+    -SSIM
+    -FID
+    -Alte Metrici.
+-TinyImageNet
+- SE POATE FOLOSI ORICE SET DE DATE CU IMAGINI.
+- SA NU FIE MNIST -> APROAPE BINARINI
+- SA FIE IMAGINI COLOR BOSS-ule......
+- VIATA MAI GREA DACA MASCA ESTE PESTE 50% dim imagine BOSS-uleanule.
+- Recomandari dimensiuni maxime pt masti: 25%, 30% din imagine.
+- La masti pt 50% -> deja intram in task-ul de generare boss-uleanule.
+- SA EXISTE VARIATIE IN FOMA MASTII BOSS-uleanule!!!
+- La antrenare, in timp ce trec prin toate batch-urile:
+    - Fie am mastile deja facute, fixate, nu le schimb, le folosesc ca atare. Mastile fixate ar trebui sa fie foarte variate
+    - Fie am mastile generate dinamic boss-ule. Pt un batch, generez si niste masti PENTRU FIECARE EXEMPLU DIN BATCH, le aplic
+- OBLIGATORIU: TREBUIE SA RAMANA FIXE MASTILE PE SETUL DE VALIDARE. VREM SA MASURAM PERFORMANTA PE ACELEASI DATE ADICA PE ACELEASI GOLURI PE CARE LE UMPLEM.
+- AR FIE BINE SA FIE MAI MULTE MODELE:
+    - ceva fara retele, sa vedem de la ce pornim si unde ajungem, ceva clasic. ASTA IMI DA UN PUNCT DE PORNIRE BOSS -> Sa vedem cam care sunt performantele de pornire(fara retele). Retelele ar trebui sa fie mult mai bune decat variantele clasice, dar sa vad care sunt performantele de start boss-uleanule. Stiu macar, cam, peste ce valori ar trebui sa fie performantele cand imi antrenez prima retea boss.
+- SOTA: nu e gresit un tabel in care punem toate referintele, dar, trebuie sa fie si text pe langa.
+- Reteaua ar trebui sa generalizeze la orice pozitie din masca si mai mult sau mai putin orice dimensiune.
+- La Antrenare -> diversitate de tipuri de masti -> asa ajunge reteaua sa generalizeze.
+- La Validare -> 1 masca de 1 singura dimensiune (masca fixa) pe tot subsetul de validare -> MASOR PERFORMANTELE.
+- Metodele pe care nu le antrenam noi -> de la alea facem transfer learning-ul. Trebuie sa vezi ce este transfer learning boss-uleanule.
+- SA NE FACEM NOI STUDIILE DE ABLATIE.
+- Cand facem Transfer learning si antrenam pt cateva epoci retelele preantrenate, folosim diferiti hiperparametrii => asa ne facem studiile de ablatie. Deci nu luam de-a gata ce am gasit pe net si mai bibilim hiperparametrii ca sa evidentiem un anumit aspect.
+- Studiile de ablatie nu sunt obligatoriu de facut in procesul de fine tuning. Il putem face si la testare, dupa ce modelul este antrenat, putem testa sub diferite conditii: pruning(trade-off perf si rata de compresie), model antrenat pe img rez mica si testez pe imagini de rezolutie mare. Ne uitam prin articole ce fac aia pe acolo, facem fie propriile studii, fie reproducem ce au facut aia in paper, dar, MACAR, sa fie diferite, adaugam niste explicatii => studiul de ablatie.
+
+C.
+- Orice baza de date de imagini, rezolutii 64x64 -> 512x512
+- Masti generate aleator, dinamic. Sa acopere intre 25% -> 75% din imagine. NU E UN GUIDELINE. Masti mici si masti mari.
+- Seturi de date de masti exista ?? Nu exista, in paper-uri isi genereaza ei mastile dupa le ofera publicului.
+- La antrenarea modelelor de inpainting, mastile sunt generate aleator la fiecare extragere a imaginii din baza de date
+- LA VALIDARE, mastile sunt generate o singura data SI FIXATE. Vrem sa facem validarea mereu pe acelasi set de date.
+
+
+Mari si Joi din ultima saptama alocata acestui curs.
+Probabil, datele de prezentare: 7, 9 Aprilie / 14, 16 Aprilie.
+Examen, probabil de pe 20 Aprilie incolo
+Prezentare Proiect:
+- 10 min prezentarea
+- 5 min intrebari
+Prezentare Laborator:
+- 5 min prezentarea.
+La lab, oricare tema din cele prezentate la laborator. - doar 1 singura tema.
