@@ -1,0 +1,16 @@
+# ToDo
+- [ ] De căutat și studiat paper-uri de specialitate. De urmărit:
+  - Studii de ablație.
+  - Modul de generare al măștilor + forme.
+  - Procentele dimensiunilor folosite.
+  - Cum fac antrenarea și validarea. Transfer Learning.
+  - Seturi de date folosite. Cum le obțin.
+  - Ce dimensiuni ale imaginilor + ce rezoluții folosesc.
+  - Metrici de performanță folosite. Cum se definesc. Cum se măsoară.
+  - Alte informații utile. Ca idee generală fii foarte atent la toate informațiile prezentate în paper-uri, eventual ia niște notițe, vezi ce ai putea folosi în proiectul tău.
+  - Nu uita că ai cerință obligatorie pentru referințe: 10 pt SOTA și 5 pentru restul raportului. DECI MINIM 15 referințe.
+- [ ] Despre Transfer Learning. Despre ce e vb, cum se folosește, etc.
+- [ ] Alegerea seturilor de date.
+- [ ] Stabilirea studiilor de ablație pe care le fac.
+- [ ] În principiu terminarea întregii planificări a.î. să pot trece la scrierea codului boss. Și asta cât mai repede.
+- [ ] Planificarea, în mare, a codului. Care sunt componentele principale ?
