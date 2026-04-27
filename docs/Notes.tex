@@ -42,6 +42,7 @@ Masca poate să fie, ori generată dinamic, ori citită dintr-un fișier și apl
 
 \section{Despre Măști}
 Măștile pot să fie statice sau dinamice. Paper-urile de specialitate aleg să genereze măștile dinamic.\\
+Cred ca si profesorii vor ca mastile sa fie generate dinamic, deci urmareste exemple de generare dinamica de masti din paper-uri.\\
 Măștile trebuie să aibă forme și dimensiuni variate pentru a permite sistemului să generalizeze.\\
 Ca idee, măștile nu ar trebui să ocupe mai mult de 50\% suprafața totală a imaginii.\\
 De exemplu, putem începe cu dimensiuni mici ale măștii, apoi crescută gradual: 1\%, 2\%, 5\%, 10\%, 15\%, 20\%, 25\%, 30\%, 35\%, 40\%, 45\%, 50\%.\\
@@ -50,8 +51,8 @@ Ca idee generală, uite-te peste câteva paper-uri de specialitate și vezi ce d
 
 
 \section{Despre Performanțe}
-Ca idee generală, ar fi recomandat ca, pentru primul model, să folosesc ceva model clasic(fără rețele neurale) pentru a-mi face o idee despre punctul de start al performanțelor.\\
-Rețelele neurale au performanțe mai bune decât modele clasice cu învățare automată.\\
+Ca idee generală, ar fi recomandat ca, pentru primul model, să folosesc ceva model clasic(fără rețele neurale) pentru a-mi face o idee despre punctul de start al performanțelor, adica un \textbf{baseline}, punct de start, pentru a avea un nivel de refeință inițial.\\
+Rețelele neurale au performanțe mai bune decât modele clasice cu învățare automată, deci așa ar trebui să obțin și eu rezultatele.\\
 Rețelele ar trebui să fie capabile să generalizeze pentru orice formă și la orice poziții din imagini.
 Deci, prima rețea pe care o construiesc, ar trebui să aibă performanțe mai bune față de modelul cu învățare automată construit în prima etapă. \\
 Uită-te prin paper-uri și vezi ce modele clasice cu învățare automată au folosit ei. De asemenea vezi ce rețele neurale au folosit ei.
@@ -91,12 +92,12 @@ SA NE FACEM NOI STUDIILE DE ABLATIE.\\
 \textbf{\color{red} Ca idee generală, un studiu de ablație trebuie să pună în evidență un anumit aspect(care sa urmărit în timpul experimentelor.)}
 Idei studii de ablație:
 \begin{itemize}
-    \item Sistem să fie antrenat de noi. Dacă nu este antrenat de noi, trebuie să folosesc transfer learning.
-    \item Idee studiu de ablație: Antrenarea unui model pe măști fixe. Antrenarea unui al doilea model pe măști random. Studiul de ablație constă în comparația celor 2 modele și determinat dacă modelul antrenat pe măști random generalizează mai bine decât cel antrenat pe măști fixe.
-    \item Idee studiu de ablație: Generez măști cu aceeași formă, dar dimensiuni crescute treptat. Ideea de bază este, pentru aceeași formă a măștii, până la ce dimensiune maxiumă este capabil sistemul să generalizeze?? Schimb forma măștii și repet procesul.
-    \item Idee studiu de ablatie: În pereche cu punctul precedent, mențin dimensiunea fixă a măștii, dar variez forma ei, de la forme geometrice simple(pătrat, dreptunghi, cerc, poate și elipsă) $\rightarrow$ forme geometrice mai complicate $\rightarrow$ forme geometrice foarte complicate. Până unde poate sistemul să generalizeze ??
-    \item Idee studiu de ablație: Facem pruning(eliminăm o parte din parametrii - nu știu dacă la antrenare/validare) $\rightarrow$ măsurăm compromisul dintre performanță și rata de compresie (cred că asta se aplică pentru alt proiect, dar am scris-o aici, ca idee generică)
-    \item Idee studiu de ablație: Antrenez pe imagini cu rezoluții mici, testăm pe imagini cu rezoluții mari și invers. Până unde e în stare sistemul să umple golurile ????
+    \item \underline{Idee studio de ablație}: Sistem să fie antrenat de noi. Dacă nu este antrenat de noi, trebuie să folosesc transfer learning.
+    \item \underline{Idee studiu de ablație}: Antrenarea unui model pe măști fixe. Antrenarea unui al doilea model pe măști random. Studiul de ablație constă în comparația celor 2 modele și determinat dacă modelul antrenat pe măști random generalizează mai bine decât cel antrenat pe măști fixe.
+    \item \underline{Idee studiu de ablație}: Generez măști cu aceeași formă, dar dimensiuni crescute treptat. Ideea de bază este, pentru aceeași formă a măștii, până la ce dimensiune maxiumă este capabil sistemul să generalizeze?? Schimb forma măștii și repet procesul.
+    \item \underline{Idee studiu de ablatie}: În pereche cu punctul precedent, mențin dimensiunea fixă a măștii, dar variez forma ei, de la forme geometrice simple(pătrat, dreptunghi, cerc, poate și elipsă) $\rightarrow$ forme geometrice mai complicate $\rightarrow$ forme geometrice foarte complicate. Până unde poate sistemul să generalizeze ??
+    \item \underline{Idee studiu de ablație}: Facem pruning(eliminăm o parte din parametrii - nu știu dacă la antrenare/validare) $\rightarrow$ măsurăm compromisul dintre performanță și rata de compresie (cred că asta se aplică pentru alt proiect, dar am scris-o aici, ca idee generică)
+    \item \underline{Idee studiu de ablație}: Antrenez pe imagini cu rezoluții mici, testăm pe imagini cu rezoluții mari și invers. Până unde e în stare sistemul să umple golurile ????
 \end{itemize}
 
 \section{Rezumat}

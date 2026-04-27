@@ -10,7 +10,7 @@
   - Alte informații utile. Ca idee generală fii foarte atent la toate informațiile prezentate în paper-uri, eventual ia niște notițe, vezi ce ai putea folosi în proiectul tău.
   - Nu uita că ai cerință obligatorie pentru referințe: 10 pt SOTA și 5 pentru restul raportului. DECI MINIM 15 referințe.
 - [ ] Despre Transfer Learning. Despre ce e vb, cum se folosește, etc.
-- [ ] Alegerea seturilor de date.
+- [x] Alegerea seturilor de date.
 - [ ] Stabilirea studiilor de ablație pe care le fac.
 - [ ] În principiu terminarea întregii planificări a.î. să pot trece la scrierea codului boss. Și asta cât mai repede.
 - [ ] Planificarea, în mare, a codului. Care sunt componentele principale ?
